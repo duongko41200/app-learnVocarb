@@ -1,9 +1,9 @@
 <template>
 	<div class="home">
 		<div>
-			<div class="swap">
-				<div class="swap__header">
-					<input type="text" placeholder="Search topic" />
+			<div class="swap d-flex flex-column align-items-center">
+				<div class="swap__header d-flex gap-2 justify-content-center">
+					<input type="text" placeholder="Search topic" class="search" />
 					<button type="button" class="btn btn-secondary">
 						Search
 					</button>
@@ -47,50 +47,126 @@
 						</b-modal>
 					</div>
 				</div>
-				<div class="swap__list p-3 row gap-2 justify-content-center">
-					<div
-						class="d-flex p-1 mb-2 text-white justify-content-between col-lg-5 col-md-10 col-sm-10"
-						:class="
-							listReminder[idx].bgDelay ? listReminder[idx].bgDelay : ''
-						"
-						v-for="(topic, idx) in allListTopics"
-						:key="idx"
-					>
-						<div class="d-flex gap-2">
-							<div>{{ topic.name }}:</div>
-							<div>{{ topic.description }}</div>
+				<div class="row list-queue">
+					<div class="col-lg-6 col-sm-12 p-2 ">
+						<div
+							class="swap__list row  table-list justify-content-center"
+						>
+							<div class="col-12 border pb-0">
+								<h3>Danh sách đợi</h3>
+							</div>
+							<div class="col-12 border p-3  d-flex flex-column justify-content-center data-list ">
+								<div
+									class="d-flex topic p-1 mb-2 text-white bg-primary justify-content-between col-12"
+									:class="
+										listReminder[idx]?.bgDelay
+											? listReminder[idx]?.bgDelay
+											: ''
+									"
+									v-for="(topic, idx) in allListTopics"
+									:key="idx"
+								>
+									<div class="d-flex gap-2">
+										<div>{{ topic.name }}:</div>
+										<div>{{ topic.description }}</div>
+									</div>
+
+									<div>{{ topic.learnTimes }}</div>
+
+									<div class="d-flex gap-2">
+										<div>
+											<button
+												type="button"
+												class="btn bg-secondary btn-sm text-white"
+												v-if="topic.listVocabulary"
+												@click="openModalPreview(topic)"
+											>
+												Ôn tập
+											</button>
+										</div>
+										<div>
+											<button
+												type="button"
+												class="btn btn-success btn-sm"
+												@click="openModalVocarb(topic)"
+											>
+												Edit Vocabulary
+											</button>
+										</div>
+										<div>
+											<button
+												type="button"
+												class="btn btn-danger btn-sm"
+												@click="onDeleteTopic(topic)"
+											>
+												Delete
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
+					</div>
 
-						<div>{{ topic.learnTimes }}</div>
 
-						<div class="d-flex gap-2">
-							<div>
-								<button
-									type="button"
-									class="btn bg-secondary btn-sm text-white"
-									v-if="topic.listVocabulary"
-									@click="openModalPreview(topic)"
-								>
-									Ôn tập
-								</button>
+
+					<!-- Danh sách kiểm tra -->
+					<div class="col-lg-6 col-sm-12 p-2 ">
+						<div
+							class="swap__list  row table-list justify-content-center"
+						>
+							<div class="col-12 border pb-0">
+								<h3>Danh sách kiểm tra</h3>
 							</div>
-							<div>
-								<button
-									type="button"
-									class="btn btn-success btn-sm"
-									@click="openModalVocarb(topic)"
+							<div class="col-12 border p-3  d-flex flex-column justify-content-center data-list ">
+								<div
+									class="d-flex topic p-1 mb-2 text-white bg-primary justify-content-between col-12"
+									:class="
+										listReminder[idx]?.bgDelay
+											? listReminder[idx]?.bgDelay
+											: ''
+									"
+									v-for="(topic, idx) in allListTopics"
+									:key="idx"
 								>
-									Edit Vocabulary
-								</button>
-							</div>
-							<div>
-								<button
-									type="button"
-									class="btn btn-danger btn-sm"
-									@click="onDeleteTopic(topic)"
-								>
-									Delete
-								</button>
+									<div class="d-flex gap-2">
+										<div>{{ topic.name }}:</div>
+										<div>{{ topic.description }}</div>
+									</div>
+
+									<div>{{ topic.learnTimes }}</div>
+
+									<div class="d-flex gap-2">
+										<div>
+											<button
+												type="button"
+												class="btn bg-secondary btn-sm text-white"
+												v-if="topic.listVocabulary"
+												@click="openModalPreview(topic)"
+											>
+												Ôn tập
+											</button>
+										</div>
+										<div>
+											<button
+												type="button"
+												class="btn btn-success btn-sm"
+												@click="openModalVocarb(topic)"
+											>
+												Edit Vocabulary
+											</button>
+										</div>
+										<div>
+											<button
+												type="button"
+												class="btn btn-danger btn-sm"
+												@click="onDeleteTopic(topic)"
+											>
+												Delete
+											</button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -245,7 +321,6 @@ export default {
 					remindVocarb[i].learnTimes == 2 &&
 					currentDate.getTime() >= hoursToTimestamp(originalDate, 24)
 				) {
-		
 					this.updatRankDelay(remindVocarb[i]);
 					await this.playAudio();
 				}
@@ -304,7 +379,33 @@ export default {
 <style scoped>
 .home {
 	position: relative;
-	height: 100vh;
+	padding:10px;
+	min-height: 98vh;
+	width: 99vw;
+	height:fit-content;
 	background-color: rgba(181, 178, 178, 0.42);
 }
+.swap{
+	height: 100%;
+}
+.list-queue{
+	padding:10px 90px !important;
+}
+.table-list{
+	background-color:#fff;
+	border: 1px solid rgba(155, 153, 153, 0.661);
+	border-radius: 10px;
+	box-shadow: 1px 1px #cfcece69;
+	/* min-height: 500px; */
+	max-height: 500px;
+	overflow: auto;
+	
+}
+.topic{
+	padding-left: 10px !important;
+}
+.search{
+	width: 600px;
+}
+
 </style>

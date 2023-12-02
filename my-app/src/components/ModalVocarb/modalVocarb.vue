@@ -104,7 +104,7 @@ export default {
 	height: fit-content;
 	background-color: white;
 	position: absolute;
-	top: 0;
+	top: 3%;
 	left: 15%;
 	border: 1px solid black;
 }

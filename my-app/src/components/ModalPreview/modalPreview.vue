@@ -1,9 +1,11 @@
 <template>
-	<div class="modal__preview" v-if="showModal">
+	<div class="modal__preview p-2" v-if="showModal">
 		<div>
 			<div class="modal__preview--title"> Danh sách từ mới</div>
 			<div class="swap p-2 ">
-				<div v-html="dataReview.listVocabulary" class="d-flex flex-column justify-content-start text-start"></div>
+				<div v-if="type==='check'" v-html="dataReview.listVocabulary" class="d-flex flex-column justify-content-start text-start"></div>
+				<div v-else v-html="dataVocarb" class="d-flex flex-column justify-content-start text-start"></div>
+	
 
 			</div>
 			<div class="mt-2 d-flex justify-content-center gap-3 p-2">
@@ -35,6 +37,9 @@ export default {
 		dataReview: {
 			type: Object,
 			
+		},
+		dataVocarb: {
+			type:String
 		},
 		type: {
 			typper: String,
@@ -85,13 +90,13 @@ export default {
 	height: fit-content;
 	background-color: white;
 	position:absolute;
-	top:-15px;
-	left:15%;
+	top:3%;
+	left:0;
 	border: 1px solid black;
 
 }
 .swap{
-	min-height: 400px;
+	min-height: 75vh;
 	
 	width: 100%;
 	/* background-color: aliceblue; */

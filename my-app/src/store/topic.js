@@ -61,7 +61,10 @@ export default {
 
 			console.log('listTopic', listTopic);
 
-			commit('SET_ALL_LIST_TOPIC', listTopic.data.data);
+
+			await commit('SET_ALL_LIST_TOPIC', listTopic.data.data);
+
+		
 		},
 		async deleteTopic({ commit }, payload) {
 			console.log('payload', payload);
