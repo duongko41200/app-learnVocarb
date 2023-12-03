@@ -2,8 +2,17 @@
 	<div class="modal__vocarb" v-if="showModal">
 		<div>
 			<div class="modal__vocarb--title">Danh sách từ mới</div>
-			<div class="swap p-2">
-				<ckeditor v-model="dataVocarb"></ckeditor>
+			<div class="swap p-2 row">
+				<div :class="isNote === false?'col-12':'col-6'">
+					
+					{{ isNote === true ? "Lưu từ mới" : " "}}
+					<ckeditor v-model="dataVocarb"></ckeditor>
+				</div>
+
+				<div v-if="isNote === true" class="col-6">
+					{{ isNote === true ? "Phần nháp" : " "}}
+					<ckeditor> </ckeditor>
+				</div>
 			</div>
 			<div class="mt-2 d-flex justify-content-center gap-3 p-2">
 				<button
@@ -22,11 +31,19 @@
 				</button>
 				<button
 					type="button"
+					class="btn btn-warning"
+					@click="onNoteVocab"
+				>
+					{{ isNote === false ? 'Nháp' : 'Bỏ Nháp' }}
+				</button>
+				<button
+					type="button"
 					class="btn btn-secondary"
 					@click="closeModalVocarb"
 				>
 					Cancel
 				</button>
+
 			</div>
 		</div>
 		<modalPreview
@@ -61,6 +78,7 @@ export default {
 		return {
 			dataVocarb: '',
 			showModalPreview: false,
+			isNote: false,
 		};
 	},
 	mounted() {
@@ -86,6 +104,9 @@ export default {
 			console.log('new vocarb', newVocarb);
 			this.getAllTopics();
 			this.$emit('onSaveVocarb');
+		},
+		onNoteVocab() {
+			this.isNote = !this.isNote;
 		},
 	},
 	watch: {

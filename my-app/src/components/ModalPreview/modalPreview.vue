@@ -1,5 +1,5 @@
 <template>
-	<div class="modal__preview p-2" v-if="showModal">
+	<div class="modal__preview p-2" v-if="showModal" :class="type==='check'?'p-4':''">
 		<div>
 			<div class="modal__preview--title"> Danh sách từ mới</div>
 			<div class="swap p-2 ">

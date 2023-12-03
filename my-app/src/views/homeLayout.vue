@@ -48,7 +48,7 @@
 					</div>
 				</div>
 				<div class="row list-queue">
-					<div class="col-lg-6 col-sm-12 p-2 ">
+					<div class="col-lg-6 col-sm-12 p-4 ">
 						<div
 							class="swap__list row  table-list justify-content-center"
 						>
@@ -111,7 +111,7 @@
 
 
 					<!-- Danh sách kiểm tra -->
-					<div class="col-lg-6 col-sm-12 p-2 ">
+					<div class="col-lg-6 col-sm-12 p-4 ">
 						<div
 							class="swap__list  row table-list justify-content-center"
 						>

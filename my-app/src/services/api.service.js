@@ -5,7 +5,7 @@ import axiosBase from 'axios';
 
 const axios = axiosBase.create({
 	// This is development host
-	baseURL: "http://localhost:8888/api/",
+	baseURL: "http://localhost:3333/api/",
 	timeout: 50000,
 });
 
