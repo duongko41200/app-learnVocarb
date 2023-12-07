@@ -13,9 +13,9 @@ const rankDelay = (rank) => {
 			return 'bg-danger';
 
 		default:
-		
 			break;
 	}
+	return 'bg-danger';
 };
 
 export default {
@@ -24,8 +24,10 @@ export default {
 	state() {
 		return {
 			allListTopics: [],
+			originAllListTopics: [],
 
 			listReminder: [],
+			listCheck: [],
 		};
 	},
 
@@ -36,24 +38,42 @@ export default {
 			commit('SET_ALL_LIST_TOPIC', listTopic.data.data);
 
 			const arrListTopic = listTopic.data.data;
+
+			//cap nhap danh sach hien thi man hinh
 			let arrList = [];
 			for (let i = 0; i < arrListTopic.length; i++) {
 				arrList = [
 					...arrList,
 					{
 						id: arrListTopic[i].id,
-						timeLearn: dayjs(arrListTopic[i].timeLearn).format('YYYY/MM/DD HH:mm:ss'),
+						timeLearn: dayjs(arrListTopic[i].timeLearn).format(
+							'YYYY/MM/DD HH:mm:ss'
+						),
 						learnTimes: arrListTopic[i].learnTimes,
 						notifi: false,
 						bgDelay: rankDelay(arrListTopic[i].delayTimes),
 						rankDelay: arrListTopic[i].delayTimes,
+						name: arrListTopic[i].name,
+						ddescription: arrListTopic[i].description,
+						listVocabulary: arrListTopic[i].listVocabulary,
+						createdAt: arrListTopic[i].createdAt,
 					},
 				];
 			}
 
-			console.log('arrLít:', arrList,rankDelay(0));
+			console.log('arrLít:', arrList, rankDelay(0));
+			const listOfRemind = arrList.filter(
+				(list) => list.rankDelay == 0
+			);
+			const listOfcheck = arrList.filter((list) => list.rankDelay != 0);
+			console.log('danh sach;', arrList);
+			console.log('listOfcheck', listOfcheck);
+			console.log('listOfRemind', listOfRemind);
 
-			commit('SET_LIST_REMINDER', arrList);
+			commit('SET_LIST_REMINDER', listOfRemind);
+			commit('SET_LIST_CHECK', listOfcheck);
+
+			commit('SET_ORIGIN_LIST_TOPIC', arrList);
 		},
 		async createNewTopic({ commit }, payload) {
 			console.log('payload', payload);
@@ -61,10 +81,7 @@ export default {
 
 			console.log('listTopic', listTopic);
 
-
 			await commit('SET_ALL_LIST_TOPIC', listTopic.data.data);
-
-		
 		},
 		async deleteTopic({ commit }, payload) {
 			console.log('payload', payload);
@@ -72,37 +89,44 @@ export default {
 			const listTopic = await TopicService.deleteTopic(payload);
 			commit('SET_ALL_LIST_TOPIC', listTopic.data.data);
 		},
-		updatRankDelay({state,commit},payload) {
-			const list = state.listReminder 
 
-			
+		async updatRankDelay({ state, commit }, payload) {
+			console.log('payload asdasdasd', payload);
+			const list = state.originAllListTopics;
+
 			for (let i = 0; i < list.length; i++) {
 				if (list[i].id === payload.id) {
-					list[i].rankDelay = list[i].rankDelay + 1
-					list[i].bgDelay = rankDelay(list[i].rankDelay)
+					list[i].rankDelay = list[i].rankDelay + 1;
+					list[i].bgDelay = rankDelay(list[i].rankDelay);
+
+					const review = await TopicService.uypdateDelay(list[i]);
+					console.log({ review });
 				}
-				
 			}
-			console.log("danh sach;",list , payload)
 
-			commit('SET_LIST_REMINDER',list);
-		
+			const listOfRemind = list.filter((list) => list.rankDelay == 0);
+			const listOfcheck = list.filter((list) => list.rankDelay != 0);
+			console.log('danh sach;', list, payload);
+			console.log('listOfcheck', listOfcheck);
+			console.log('listOfRemind', listOfRemind);
+
+			commit('SET_LIST_REMINDER', listOfRemind);
+			commit('SET_LIST_CHECK', listOfcheck);
+
+			// commit('SET_ORIGIN_LIST_TOPIC', list);
 		},
-		async onAcceptReview({state,commit},payload) {
-			const list = state.listReminder 
-			console.log("danh sach; adsfsdfs",list , payload)
 
-			const review = await TopicService.acceptReview(payload)
+		async onAcceptReview({ state, dispatch }, payload) {
+			const list = state.listReminder;
+			console.log('danh sach; adsfsdfs', list, payload);
 
-			console.log("review",review)
+			const review = await TopicService.acceptReview(payload);
 
-			
+			console.log('REVIEW', review);
 
-	
-			commit('SET_ALL_LIST_TOPIC', review.data.data);
+			dispatch('getAllTopics');
 
 			// commit('SET_LIST_REMINDER',list);
-		
 		},
 	},
 
@@ -113,6 +137,12 @@ export default {
 		},
 		SET_LIST_REMINDER(state, payload) {
 			state.listReminder = payload;
+		},
+		SET_LIST_CHECK(state, payload) {
+			state.listCheck = payload;
+		},
+		SET_ORIGIN_LIST_TOPIC(state, payload) {
+			state.originAllListTopics = payload;
 		},
 	},
 

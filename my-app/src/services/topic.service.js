@@ -34,6 +34,13 @@ const TopicService = {
 	async acceptReview(params) {
 		return ApiService.put(baseUrl + 'acceptReview', params);
 	},
+	async uypdateDelay(params) {
+		return ApiService.put(baseUrl + 'updateDelayTime', params);
+	},
+
+	async autoDictionary(params) {
+		return ApiService.post(baseUrl + 'autoLookUpDictionary', params);
+	},
 
 	
 

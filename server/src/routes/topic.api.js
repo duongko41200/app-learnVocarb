@@ -10,6 +10,8 @@ const topicApi = (app) => {
 	router.delete('/delete', TopicControl.handleDeleteTopics);
 	router.put('/updateVocarb', TopicControl.handleUpdateVocarb);
 	router.put('/acceptReview', TopicControl.handleAcceptReview);
+	router.put('/updateDelayTime', TopicControl.handleupdateDelaytime);
+	router.post('/autoLookUpDictionary', TopicControl.handleAutoLookUpDictionary);
 
 	return app.use('/api/topic', router);
 };
