@@ -301,7 +301,9 @@ export default {
 			const selectedText = this.getSelectedText();
 			console.log('handleMouseUp', selectedText);
 			this.selectedText = selectedText;
-			this.lengthText = this.selectedText.split(' ').length
+			this.lengthText = this.selectedText.split(' ').filter(value => value).length
+
+			console.log("lengthText", this.lengthText, this.selectedText);
 			this.isTextHighlighted = selectedText.length > 0;
 
 			//toa do
@@ -399,6 +401,8 @@ export default {
 		},
 
 		showModalTranslate() {
+
+			
 			const textElementRect =
 			this.$refs.textElement.getBoundingClientRect();
 			const selection = window.getSelection();
