@@ -95,7 +95,7 @@
 													class="btn btn-success btn-sm"
 													@click="openModalVocarb(topic)"
 												>
-													Edit Vocabulary
+													Edit
 												</button>
 											</div>
 											<div>
@@ -158,7 +158,7 @@
 													class="btn btn-success btn-sm"
 													@click="openModalVocarb(topic)"
 												>
-													Edit Vocabulary
+													Edit
 												</button>
 											</div>
 											<div>

@@ -54,7 +54,7 @@ export default {
 						bgDelay: rankDelay(arrListTopic[i].delayTimes),
 						rankDelay: arrListTopic[i].delayTimes,
 						name: arrListTopic[i].name,
-						ddescription: arrListTopic[i].description,
+						description: arrListTopic[i].description,
 						listVocabulary: arrListTopic[i].listVocabulary,
 						createdAt: arrListTopic[i].createdAt,
 					},
