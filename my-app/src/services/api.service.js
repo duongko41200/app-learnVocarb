@@ -5,7 +5,7 @@ import axiosBase from 'axios';
 
 const axios = axiosBase.create({
 	// This is development host
-	baseURL: "http://localhost:3333/api/",
+	baseURL: "https://app-learn-vocarb-2azu.vercel.app/api/",
 	timeout: 50000,
 });
 
