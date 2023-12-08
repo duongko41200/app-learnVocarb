@@ -5,7 +5,7 @@ const userApi = require("./routes/user.api")
 // const AutoLoginApi = require("./routes/auto.login.api")
 // const InstagramApi = require("./routes/instagram.api")
 const topicApi =require("./routes/topic.api")
-const uploadImageByS3 = require("./routes/image.api")
+// const uploadImageByS3 = require("./routes/image.api")
 // const userApi = require('./routes/apiUser')
 require('dotenv').config()
 const bodyParser = require('body-parser');
@@ -42,7 +42,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 userApi(app)
-uploadImageByS3(app)
+// uploadImageByS3(app)
 topicApi(app)
 // AutoLoginApi(app)
 // InstagramApi(app)
