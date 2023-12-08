@@ -56,9 +56,15 @@
 							</div>
 
 							<div class="box-translate">
-								<div class="d-flex gap-2 justify-content-end align-items-center">
+								<div
+									class="d-flex gap-2 justify-content-end align-items-center"
+								>
 									<!-- //google -->
-									<div @click="LookUpDictionary('google')" v-show="lengthText===1">
+									<a
+										:href="`https://www.google.com/search?q=${selectedText}&sca_esv=588712944&sxsrf=AM9HkKnnjxqpovA6jmQe1Eg3nrv-7dLoxQ%3A1701950075179&ei=e7JxZaDMCsbj2roPx5aTiA4&ved=0ahUKEwjg9Z-Nov2CAxXGsVYBHUfLBOEQ4dUDCBA&uact=5&oq=dog&gs_lp=Egxnd3Mtd2l6LXNlcnAiA2RvZzIKECMYgAQYigUYJzIKECMYgAQYigUYJzILEC4YgwEYsQMYgAQyCxAAGIAEGLEDGIMBMgoQABiABBiKBRhDMggQABiABBixAzIFEC4YgAQyCBAAGIAEGLEDMgsQABiABBixAxiDATIFEAAYgARIvwxQAFjWCXABeAGQAQCYAbMBoAHZA6oBAzAuM7gBA8gBAPgBAagCFMICBxAjGOoCGCfCAhYQABiABBjjBBjpBBjqAhi0AhgK2AEBwgIUEAAYgAQY4wQY6QQY6gIYtALYAQHCAhAQABgDGI8BGOoCGLQC2AECwgIQEC4YAxiPARjqAhi0AtgBAsICDBAjGIAEGIoFGBMYJ8ICBBAjGCfCAgsQLhiABBixAxiDAeIDBBgAIEGIBgG6BgYIARABGAG6BgYIAhABGAo&sclient=gws-wiz-serp`"
+										target="”_blank”"
+										v-show="lengthText === 1"
+									>
 										<svg width="24" height="16" fill="none">
 											<path
 												d="M.5 8A7.5 7.5 0 018 .5h8a7.5 7.5 0 010 15H8A7.5 7.5 0 01.5 8z"
@@ -94,10 +100,42 @@
 												</clipPath>
 											</defs>
 										</svg>
-									</div>
+									</a>
+
+									<!-- laban dictionary -->
+									<a
+										:href="`https://dict.laban.vn/find?type=1&query=${selectedText}`"
+										target="”_blank”"
+										v-show="lengthText === 1"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											height="16"
+											width="16"
+											viewBox="0 0 512 512"
+										>
+											<rect
+												x="0.5"
+												y="0.5"
+												width="23"
+												height="15"
+												rx="7.5"
+												stroke="#8C8C8C"
+											></rect>
+											<path
+												opacity="1"
+												fill="#1E3050"
+												d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm50.7-186.9L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
+											/>
+										</svg>
+									</a>
 
 									<!-- //camprit dictionary -->
-									<div @click = "LookUpDictionary('cambridge')" v-show="lengthText===1">
+									<a
+										:href="`https://dictionary.cambridge.org/vi/dictionary/english/${selectedText}`"
+										target="”_blank”"
+										v-show="lengthText === 1"
+									>
 										<svg width="24" height="16" fill="none">
 											<rect
 												x="0.5"
@@ -112,9 +150,12 @@
 												fill="#000"
 											></path>
 										</svg>
-									</div>
+									</a>
 
-									<div @click = "LookUpDictionary('video')" :class="lengthText>1?'margin-top-box':''">
+									<div
+										@click="LookUpDictionary('video')"
+										:class="lengthText > 1 ? 'margin-top-box' : ''"
+									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
 											width="24"
@@ -274,7 +315,7 @@ export default {
 			isModalTranslate: false,
 
 			dictionarys: {},
-			lengthText:0
+			lengthText: 0,
 		};
 	},
 	mounted() {
@@ -301,9 +342,11 @@ export default {
 			const selectedText = this.getSelectedText();
 			console.log('handleMouseUp', selectedText);
 			this.selectedText = selectedText;
-			this.lengthText = this.selectedText.split(' ').filter(value => value).length
+			this.lengthText = this.selectedText
+				.split(' ')
+				.filter((value) => value).length;
 
-			console.log("lengthText", this.lengthText, this.selectedText);
+			console.log('lengthText', this.lengthText, this.selectedText);
 			this.isTextHighlighted = selectedText.length > 0;
 
 			//toa do
@@ -351,25 +394,24 @@ export default {
 				let data = dictionary.data[0];
 				console.log({ data });
 
-				const text =  filterDictionary(
+				const text = filterDictionary(
 					dictionary.data[0].phonetics,
 					'text'
 				);
-				const audio =  filterDictionary(
+				const audio = filterDictionary(
 					dictionary.data[0].phonetics,
 					'audio'
 				);
-				const definition =  filterDictionary(
+				const definition = filterDictionary(
 					dictionary.data[0].meanings[0].definitions,
 					'definition'
 				);
-				const example =  filterDictionary(
+				const example = filterDictionary(
 					dictionary.data[0].meanings[0].definitions,
 					'example'
 				);
-				const typeWord =  dictionary.data[0].meanings[0]
-					.partOfSpeech;
-				const synonyms =  dictionary.data[0].meanings[0].synonyms;
+				const typeWord = dictionary.data[0].meanings[0].partOfSpeech;
+				const synonyms = dictionary.data[0].meanings[0].synonyms;
 
 				const arrDictory = {
 					text: text ? text : dictionary.data[0].phonetic,
@@ -382,10 +424,8 @@ export default {
 					translate: translate.data.responseData.translatedText,
 				};
 
-
 				console.log('gais tri arrDictoru  :', arrDictory);
 				this.dictionarys = arrDictory;
-	
 			} catch (error) {
 				console.log('ksjdfksdjf khong tim thay');
 				this.dictionarys = {
@@ -401,10 +441,8 @@ export default {
 		},
 
 		showModalTranslate() {
-
-			
 			const textElementRect =
-			this.$refs.textElement.getBoundingClientRect();
+				this.$refs.textElement.getBoundingClientRect();
 			const selection = window.getSelection();
 			const range = selection.getRangeAt(0).getBoundingClientRect();
 			console.log(
@@ -422,15 +460,13 @@ export default {
 			console.log('height:', window.innerHeight);
 		},
 
-
 		async LookUpDictionary(value) {
 			console.log('lookupDictionary', value);
 			await TopicService.autoDictionary({
 				nameWeb: value,
-				word: this.selectedText
-
-			})
-		}
+				word: this.selectedText,
+			});
+		},
 	},
 };
 </script>
@@ -559,7 +595,7 @@ th {
 	font-style: italic;
 	color: rgba(128, 128, 128, 0.793);
 }
-.margin-top-box{
+.margin-top-box {
 	margin-top: 49px;
 }
 </style>
